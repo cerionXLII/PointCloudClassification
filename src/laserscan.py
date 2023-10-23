@@ -119,7 +119,7 @@ class LaserScan:
             self.points[:, 2] += jitter_z
         if self.rot:
             #self.points = self.points @ R.random(random_state=1234).as_dcm().T
-            self.points = self.points @ R.random(random_state=1234).as_matrix().T
+            self.points = self.points @ R.random().as_matrix().T
         if remissions is not None:
             self.remissions = remissions  # get remission
             #if self.DA:

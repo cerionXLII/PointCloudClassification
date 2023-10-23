@@ -7,7 +7,9 @@ import torch
 
 class ModelContainer(nn.Module):
     def __init__(self):
-        super(ModelContainer, self).__init__()
+        super().__init__()
+        #super(ModelContainer, self).__init__()
+        
         self.Ensemble = [] #Where we keep an ensemble of the models
       
     def addModel(self, model):
@@ -28,8 +30,16 @@ class ModelContainer(nn.Module):
             model.train()
         return self
 
+    # def forward(self, x):
+    #     preds = [model(x) for model in self.Ensemble]
+    #     ensemblePred = torch.mean(torch.stack(preds), dim=0)
+    #     return ensemblePred
     def forward(self, x):
-        preds = [model(x) for model in self.Ensemble]
+        return self.predict(x)
+
+    #This is a version that uses the model.predict() method, which gives softmax probabilities. Then we average the probabilities
+    def predict(self, x):
+        preds = [model.predict(x) for model in self.Ensemble]
         ensemblePred = torch.mean(torch.stack(preds), dim=0)
         return ensemblePred
     
